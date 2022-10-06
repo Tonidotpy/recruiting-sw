@@ -1,0 +1,4 @@
+/home/tonidotpy/Desktop/informatica/C++/recruiting-sw/telemetry_2/build/CMakeFiles/Project2.dir
+/home/tonidotpy/Desktop/informatica/C++/recruiting-sw/telemetry_2/build/CMakeFiles/project_2.dir
+/home/tonidotpy/Desktop/informatica/C++/recruiting-sw/telemetry_2/build/CMakeFiles/edit_cache.dir
+/home/tonidotpy/Desktop/informatica/C++/recruiting-sw/telemetry_2/build/CMakeFiles/rebuild_cache.dir
