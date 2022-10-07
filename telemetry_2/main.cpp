@@ -16,9 +16,9 @@ const uint64_t START_CODE1   = 0x6601;
 const uint64_t START_CODE2   = 0xFF01;
 const uint64_t STOP_CODE     = 0x66FF;
 
-const char can_path[]    = "../bin/candump.log";
-const char csv_path[]    = "../bin/statistics/stats.csv";
-const char log_dir[]     = "../bin/logs";
+const char can_path[]    = "../candump.log";
+const char csv_path[]    = "../statistics/stats.csv";
+const char log_dir[]     = "../logs";
 const char time_format[] = "%Y-%m-%d_%H-%M-%S";
 
 
