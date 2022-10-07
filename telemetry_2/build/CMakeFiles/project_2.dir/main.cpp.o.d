@@ -1,10 +1,11 @@
 CMakeFiles/project_2.dir/main.cpp.o: \
  /home/tonidotpy/Desktop/informatica/C++/recruiting-sw/telemetry_2/main.cpp \
- /usr/include/stdc-predef.h /usr/include/stdio.h \
- /usr/include/bits/libc-header-start.h /usr/include/features.h \
- /usr/include/sys/cdefs.h /usr/include/bits/wordsize.h \
- /usr/include/bits/long-double.h /usr/include/gnu/stubs.h \
- /usr/include/gnu/stubs-64.h \
+ /usr/include/stdc-predef.h \
+ /home/tonidotpy/Desktop/informatica/C++/recruiting-sw/telemetry_2/fake_receiver.h \
+ /usr/include/stdio.h /usr/include/bits/libc-header-start.h \
+ /usr/include/features.h /usr/include/sys/cdefs.h \
+ /usr/include/bits/wordsize.h /usr/include/bits/long-double.h \
+ /usr/include/gnu/stubs.h /usr/include/gnu/stubs-64.h \
  /usr/lib/gcc/x86_64-unknown-linux-gnu/10.2/include/stddef.h \
  /usr/lib/gcc/x86_64-unknown-linux-gnu/10.2/include/stdarg.h \
  /usr/include/bits/types.h /usr/include/bits/timesize.h \
@@ -140,5 +141,6 @@ CMakeFiles/project_2.dir/main.cpp.o: \
  /usr/include/c++/10.2/bits/node_handle.h /usr/include/c++/10.2/optional \
  /usr/include/c++/10.2/bits/enable_special_members.h \
  /usr/include/c++/10.2/bits/unordered_map.h \
- /usr/include/c++/10.2/bits/erase_if.h \
- /home/tonidotpy/Desktop/informatica/C++/recruiting-sw/telemetry_2/fake_receiver.h
+ /usr/include/c++/10.2/bits/erase_if.h /usr/include/c++/10.2/chrono \
+ /usr/include/c++/10.2/ratio /usr/include/c++/10.2/ctime \
+ /usr/include/c++/10.2/bits/parse_numbers.h

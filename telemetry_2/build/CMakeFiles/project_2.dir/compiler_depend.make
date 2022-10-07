@@ -3,6 +3,7 @@
 
 CMakeFiles/project_2.dir/main.cpp.o: /home/tonidotpy/Desktop/informatica/C++/recruiting-sw/telemetry_2/main.cpp \
   /usr/include/stdc-predef.h \
+  /home/tonidotpy/Desktop/informatica/C++/recruiting-sw/telemetry_2/fake_receiver.h \
   /usr/include/stdio.h \
   /usr/include/bits/libc-header-start.h \
   /usr/include/features.h \
@@ -203,14 +204,25 @@ CMakeFiles/project_2.dir/main.cpp.o: /home/tonidotpy/Desktop/informatica/C++/rec
   /usr/include/c++/10.2/bits/enable_special_members.h \
   /usr/include/c++/10.2/bits/unordered_map.h \
   /usr/include/c++/10.2/bits/erase_if.h \
-  /home/tonidotpy/Desktop/informatica/C++/recruiting-sw/telemetry_2/fake_receiver.h
+  /usr/include/c++/10.2/chrono \
+  /usr/include/c++/10.2/ratio \
+  /usr/include/c++/10.2/ctime \
+  /usr/include/c++/10.2/bits/parse_numbers.h
 
+
+/usr/include/c++/10.2/ctime:
+
+/usr/include/c++/10.2/ratio:
+
+/usr/include/c++/10.2/chrono:
 
 /usr/include/c++/10.2/bits/unordered_map.h:
 
 /usr/include/c++/10.2/bits/enable_special_members.h:
 
 /usr/include/c++/10.2/optional:
+
+/usr/include/c++/10.2/bits/parse_numbers.h:
 
 /usr/include/c++/10.2/bits/invoke.h:
 
@@ -344,6 +356,12 @@ CMakeFiles/project_2.dir/main.cpp.o: /home/tonidotpy/Desktop/informatica/C++/rec
 
 /home/tonidotpy/Desktop/informatica/C++/recruiting-sw/telemetry_2/main.cpp:
 
+/usr/include/bits/types/__locale_t.h:
+
+/usr/include/c++/10.2/backward/binders.h:
+
+/usr/include/sched.h:
+
 /usr/include/c++/10.2/bits/move.h:
 
 /usr/include/c++/10.2/bits/exception_defines.h:
@@ -371,10 +389,6 @@ CMakeFiles/project_2.dir/main.cpp.o: /home/tonidotpy/Desktop/informatica/C++/rec
 /usr/include/bits/types/struct_tm.h:
 
 /usr/include/bits/types/struct_timeval.h:
-
-/usr/include/bits/types.h:
-
-/usr/include/bits/types/__locale_t.h:
 
 /usr/include/gnu/stubs-64.h:
 
@@ -440,7 +454,7 @@ CMakeFiles/project_2.dir/main.cpp.o: /home/tonidotpy/Desktop/informatica/C++/rec
 
 /usr/include/bits/pthreadtypes-arch.h:
 
-/usr/include/c++/10.2/bits/stl_algobase.h:
+/usr/include/bits/types.h:
 
 /usr/include/bits/types/wint_t.h:
 
@@ -468,15 +482,17 @@ CMakeFiles/project_2.dir/main.cpp.o: /home/tonidotpy/Desktop/informatica/C++/rec
 
 /usr/include/bits/sched.h:
 
+/usr/include/c++/10.2/bits/stl_algobase.h:
+
 /usr/include/bits/types/struct_timespec.h:
 
 /usr/include/c++/10.2/compare:
 
 /usr/include/bits/types/struct_sched_param.h:
 
-/home/tonidotpy/Desktop/informatica/C++/recruiting-sw/telemetry_2/fake_receiver.h:
-
 /usr/include/c++/10.2/iostream:
+
+/home/tonidotpy/Desktop/informatica/C++/recruiting-sw/telemetry_2/fake_receiver.h:
 
 /usr/include/c++/10.2/bits/stl_iterator_base_types.h:
 
@@ -607,7 +623,3 @@ CMakeFiles/project_2.dir/main.cpp.o: /home/tonidotpy/Desktop/informatica/C++/rec
 /usr/include/c++/10.2/ext/new_allocator.h:
 
 /usr/include/c++/10.2/bits/ostream_insert.h:
-
-/usr/include/sched.h:
-
-/usr/include/c++/10.2/backward/binders.h:
