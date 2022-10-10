@@ -11,7 +11,7 @@ using namespace std;
 using namespace chrono;
 
 
-const uint16_t START_STOP_ID = 0x0A0;     // Start and stop message ID
+const uint16_t START_STOP_ID = 0x0A0;
 const uint64_t START_CODE1   = 0x6601;
 const uint64_t START_CODE2   = 0xFF01;
 const uint64_t STOP_CODE     = 0x66FF;
@@ -20,6 +20,8 @@ const char can_path[]    = "../candump.log";
 const char csv_path[]    = "../statistics/stats.csv";
 const char log_dir[]     = "../logs";
 const char time_format[] = "%Y-%m-%d_%H-%M-%S";
+
+double clock_precision;
 
 
 enum State {
@@ -52,6 +54,9 @@ int save_stats();
 
 
 int main(void){
+    // Get clock precision
+    clock_precision = (double) high_resolution_clock::period::num / high_resolution_clock::period::den;
+
     int is_open = open_can(can_path);
     start_time = (uint64_t) high_resolution_clock::now().time_since_epoch().count();
 
@@ -132,7 +137,7 @@ void run() {
     }
 
     // Update stats
-    uint64_t time_ms = now / 1e6;
+    uint64_t time_ms = (uint64_t) (now * (clock_precision * 1e3));
     if (stats.find(msg.id) == stats.end()) {
         stats[msg.id] = {
             1,          // Number of messages
@@ -170,7 +175,7 @@ int create_log() {
 
     // Get current time
     uint64_t now = (uint64_t) high_resolution_clock::now().time_since_epoch().count();
-    now /= (uint64_t) 1e6;
+    now *= (uint64_t) (clock_precision * 1e3);
     now %= (uint64_t) 1000;
     time_t t = time(0);
 
