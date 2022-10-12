@@ -34,13 +34,13 @@ const string can_path    = "../candump.log";
 const string stats_dir   = "../statistics";
 const string logs_dir    = "../logs";
 
-State current_state;
-uint64_t start_time;
-uint64_t start_session_time;
-double clock_precision;     // Precision of the clock in seconds
+static State current_state;
+static uint64_t start_time;
+static uint64_t start_session_time;
+static double clock_precision;     // Precision of the clock in seconds
 
-FILE *log_file, *stats_file;
-unordered_map<uint16_t, Statistics> stats;
+static FILE *log_file, *stats_file;
+static unordered_map<uint16_t, Statistics> stats;
 
 
 void parse_message(const char message[MAX_CAN_MESSAGE_SIZE], Message & msg);
