@@ -140,6 +140,7 @@ void idle() {
             code == START_CODE2) {
             start_session_time = (uint64_t) high_resolution_clock::now().time_since_epoch().count();
 
+            // Open log file
             int is_log_open = create_log();
             if (is_log_open == -1) {
                 cerr << "[Error]: Error while creating log file!" << endl;
@@ -166,6 +167,33 @@ void run() {
     Message msg;
     parse_message(message, msg);
     
+    if (msg.id == START_STOP_ID && msg.payload_size == 2) {
+        // Check if payload match with start or stop code
+        uint16_t code = (((uint16_t) msg.payload[0]) << 8) |
+                        ((uint16_t) msg.payload[1]);
+        // If start message is received do nothing
+        if (code == START_CODE1 ||
+            code == START_CODE2)
+            return;
+    
+        // Change state to idle
+        if (code == STOP_CODE) {
+            // Close log file
+            if (log_file != NULL) {
+                if (fclose(log_file) == EOF)
+                    cerr << "[Error]: Error while closing log file!" << endl;
+            }
+
+            // Save statistics to csv file
+            if (save_stats() == -1) {
+                cerr << "[Error]: Error while creating the csv file!" << endl;
+            }
+            
+            current_state = IDLE;
+            return;
+        }
+    }
+
     // Write to log
     if (log_file != NULL) {
         fprintf(log_file, "[%lu] %s\n", time(0), message);
@@ -186,26 +214,6 @@ void run() {
         stats[msg.id].mean_time += (elapsed_time - stats[msg.id].mean_time) / (double) stats[msg.id].tot_messages;
         stats[msg.id].tot_messages++;
         stats[msg.id].last_message_time = time_ms;
-    }
-
-    // Change state to idle
-    if (msg.id == START_STOP_ID && msg.payload_size == 2) {
-        // Check if payload match with stop code
-        uint16_t code = (((uint16_t) msg.payload[0]) << 8) |
-                        ((uint16_t) msg.payload[1]);
-        if (code == STOP_CODE) {
-            if (log_file != NULL) {
-                if (fclose(log_file) == EOF)
-                    cerr << "[Error]: Error while closing log file!" << endl;
-            }
-
-            // Save statistics to csv file
-            if (save_stats() == -1) {
-                cerr << "[Error]: Error while creating the csv file!" << endl;
-            }
-            
-            current_state = IDLE;
-        }
     }
 }
 
@@ -234,7 +242,7 @@ int save_stats() {
         uint32_t tot_messages = s.tot_messages;
         double mean_time = s.mean_time;
 
-        fprintf(stats_file, "%03x;%d;%.2f\n", id, tot_messages, mean_time);
+        fprintf(stats_file, "%03x;%lu;%.2f\n", id, tot_messages, mean_time);
     }
     fflush(stats_file);
 
