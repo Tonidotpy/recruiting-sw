@@ -17,7 +17,8 @@ enum State {
 };
 struct Message {
     uint16_t id;
-    uint64_t payload;
+    uint8_t payload[8] = {0};
+    uint8_t payload_size;   // Payload size in byte
 };
 struct Statistics {
     uint32_t tot_messages;
@@ -26,9 +27,9 @@ struct Statistics {
 };
 
 const uint16_t START_STOP_ID = 0x0A0;
-const uint64_t START_CODE1   = 0x6601;
-const uint64_t START_CODE2   = 0xFF01;
-const uint64_t STOP_CODE     = 0x66FF;
+const uint16_t START_CODE1   = 0x6601;
+const uint16_t START_CODE2   = 0xFF01;
+const uint16_t STOP_CODE     = 0x66FF;
 
 const string can_path    = "../candump.log";
 const string stats_dir   = "../statistics";
@@ -87,8 +88,16 @@ int main(void){
 
 void parse_message(const char message[MAX_CAN_MESSAGE_SIZE], Message & msg) {
     char *id_end;
-    msg.id      = (uint16_t) strtoll(message, &id_end, 16);
-    msg.payload = (uint64_t) strtoll(++id_end, NULL, 16);
+    msg.id           = (uint16_t) strtoll(message, &id_end, 16);
+    uint64_t payload = (uint64_t) strtoll(++id_end, NULL, 16);
+
+    // Payload byte size
+    msg.payload_size = (uint8_t) ((strlen(message) - 4) / 2);
+    for (int i=0; i < msg.payload_size; i++)
+    {
+        // Get next byte
+        msg.payload[msg.payload_size - i - 1] = (uint8_t) ((payload >> (i * 8)) & 0xFF);
+    }
 }
 string format_time(uint64_t time) {
     const char time_format[] = "%Y-%m-%d_%H-%M-%S";
@@ -123,18 +132,21 @@ void idle() {
     parse_message(message, msg);
 
     // Change state to run
-    if (msg.id == START_STOP_ID &&
-           (msg.payload == START_CODE1 ||
-            msg.payload == START_CODE2)) {
+    if (msg.id == START_STOP_ID && msg.payload_size == 2) {
+        // Check if payload match with start code
+        uint16_t code = (((uint16_t) msg.payload[0]) << 8) |
+                        ((uint16_t) msg.payload[1]);
+        if (code == START_CODE1 ||
+            code == START_CODE2) {
+            start_session_time = (uint64_t) high_resolution_clock::now().time_since_epoch().count();
 
-        start_session_time = (uint64_t) high_resolution_clock::now().time_since_epoch().count();
+            int is_log_open = create_log();
+            if (is_log_open == -1) {
+                cerr << "[Error]: Error while creating log file!" << endl;
+            }
 
-        int is_log_open = create_log();
-        if (is_log_open == -1) {
-            cerr << "[Error]: Error while creating log file!" << endl;
+            current_state = RUN;
         }
-
-        current_state = RUN;
     }
 }
 void run() {
@@ -177,19 +189,23 @@ void run() {
     }
 
     // Change state to idle
-    if (msg.id == START_STOP_ID &&
-            msg.payload == STOP_CODE) {
-        if (log_file != NULL) {
-            if (fclose(log_file) == EOF)
-                cerr << "[Error]: Error while closing log file!" << endl;
-        }
+    if (msg.id == START_STOP_ID && msg.payload_size == 2) {
+        // Check if payload match with stop code
+        uint16_t code = (((uint16_t) msg.payload[0]) << 8) |
+                        ((uint16_t) msg.payload[1]);
+        if (code == STOP_CODE) {
+            if (log_file != NULL) {
+                if (fclose(log_file) == EOF)
+                    cerr << "[Error]: Error while closing log file!" << endl;
+            }
 
-        // Save statistics to csv file
-        if (save_stats() == -1) {
-            cerr << "[Error]: Error while creating the csv file!" << endl;
+            // Save statistics to csv file
+            if (save_stats() == -1) {
+                cerr << "[Error]: Error while creating the csv file!" << endl;
+            }
+            
+            current_state = IDLE;
         }
-        
-        current_state = IDLE;
     }
 }
 
