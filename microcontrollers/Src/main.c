@@ -89,6 +89,9 @@ static const char SENSOR_BUSY_MSG[] = "Waiting for sensor ADC conversion\r\n";
 static const char LOWER_SENSOR_THRESHOLD_MSG[] = "Sensor output too low - Maybe sensor is missing\r\n";
 static const char UPPER_SENSOR_THRESHOLD_MSG[] = "Sensor output too high\r\n";
 
+// Maximum voltage value in mV
+static const uint16_t MAX_VOLTAGE_VALUE = 5000;
+static const uint16_t MAX_SENSOR_VALUE = 3300;
 // System voltage range in mV
 static const uint16_t UNDERVOLTAGE = 1800;
 static const uint16_t OVERVOLTAGE  = 2700;
@@ -122,7 +125,7 @@ void uart_print(const char*);
 void read_voltage(void);
 void read_sensor(void);
 void set_under_led(bool_t);   // Set undervoltage led
-void set_over_led(bool_t);  // Set overvoltage led
+void set_over_led(bool_t);    // Set overvoltage led
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -624,7 +627,7 @@ void read_voltage(void) {
   switch (voltage_status)
   {
     case HAL_OK:
-      voltage = HAL_ADC_GetValue(&VOLTAGE_ADC) / 4096.0 * 5000;
+      voltage = HAL_ADC_GetValue(&VOLTAGE_ADC) / 4096.0 * MAX_VOLTAGE_VALUE;
       break;
     case HAL_ERROR:
       uart_print(VOLTAGE_ERROR_MSG);
@@ -640,10 +643,11 @@ void read_sensor(void) {
   HAL_ADC_Start(&SENSOR_ADC);
   HAL_StatusTypeDef sensor_status = HAL_ADC_PollForConversion(&SENSOR_ADC, SENSOR_POLL_TIMEOUT);
   HAL_ADC_Stop(&SENSOR_ADC);
+
   switch (sensor_status)
   {
     case HAL_OK:
-      sensor_val = HAL_ADC_GetValue(&SENSOR_ADC) / 4096.0 * 3300;
+      sensor_val = HAL_ADC_GetValue(&SENSOR_ADC) / 4096.0 * MAX_SENSOR_VALUE;
       break;
     case HAL_ERROR:
       uart_print(SENSOR_ERROR_MSG);
